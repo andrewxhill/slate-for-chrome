@@ -1,6 +1,6 @@
 //Load uploads queue
 function loadQueue() {
-  chrome.storage.local.get(["queue"], function (result) {
+  browser.storage.local.get(["queue"], function (result) {
     var queue = JSON.stringify(result["queue"]);
     //var queue = [];
     if (queue == null || queue == "undefined" || queue.length == 2) {
@@ -15,7 +15,7 @@ function loadQueue() {
       //show random message in queue
       message_queue.innerHTML = random_message;
 
-      chrome.browserAction.setBadgeText({ text: "" });
+      browser.browserAction.setBadgeText({ text: "" });
     } else {
       message_queue.style.display = "none";
       message_help.style.display = "none";
@@ -48,9 +48,9 @@ function saveSettings() {
     //create storage with empty upload array and 0 in queue
     var set_array = [];
     var set_uploads = "0";
-    chrome.storage.local.set({ currentUploads: set_uploads }, function () {});
-    chrome.storage.local.set({ queue: set_array }, function () {});
-    chrome.storage.local.set({ apiKey: apikey_input.value }, function () {});
+    browser.storage.local.set({ currentUploads: set_uploads }, function () {});
+    browser.storage.local.set({ queue: set_array }, function () {});
+    browser.storage.local.set({ apiKey: apikey_input.value }, function () {});
     //
     page_settings.style.display = "none";
     page_home.style.display = "block";
@@ -61,7 +61,7 @@ function saveSettings() {
 }
 
 function getApiData() {
-  chrome.storage.local.get("apiKey", function (data) {
+  browser.storage.local.get("apiKey", function (data) {
     if (data.apiKey == null || data.apiKey == "") {
       message_danger.style.display = "block";
       message_danger.innerHTML = "Add your API >";
@@ -79,8 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //help button link onclick
   message_help.addEventListener("click", function () {
-    var open_url = "https://slate.host/jason/slate-chrome";
-    chrome.tabs.create({ url: open_url });
+    var open_url = "https://slate.host/jason/slate-browser";
+    browser.tabs.create({ url: open_url });
   });
 
   //show home page on help page logo click
@@ -101,12 +101,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   //new api link onclick
   settings_newapi.addEventListener("click", function () {
-    var open_url = "https://slate.host/_";
-    chrome.tabs.create({ url: open_url });
+    var open_url = "https://slate.host/_?scene=V1_NAVIGATION_API";
+    browser.tabs.create({ url: open_url });
   });
 
   //populate api key input
-  chrome.storage.local.get("apiKey", function (data) {
+  browser.storage.local.get("apiKey", function (data) {
     if (data.apiKey !== undefined) {
       apikey_input.value = data.apiKey;
     }

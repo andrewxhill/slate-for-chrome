@@ -1,8 +1,8 @@
 function onClickHandlerImage(info, tab) {
   url = info.srcUrl;
-  url = chrome.extension.getURL("build/html/image-rightclick.html?url=" + url);
+  url = browser.extension.getURL("build/html/image-rightclick.html?url=" + url);
 
-  chrome.windows.create(
+  browser.windows.create(
     { url: url, width: 232, height: 324, type: "popup" },
     function (window) {}
   );
@@ -10,32 +10,32 @@ function onClickHandlerImage(info, tab) {
 
 function onClickHandlerScreenshot() {
   var id = 100;
-  chrome.tabs.captureVisibleTab(function (screenshotUrl) {
-    var viewTabUrl = chrome.extension.getURL(
+  browser.tabs.captureVisibleTab(function (screenshotUrl) {
+    var viewTabUrl = browser.extension.getURL(
       "build/html/screenshot.html?id=" + screenshotUrl
     );
     var targetId = null;
 
-    chrome.windows.create(
+    browser.windows.create(
       { url: viewTabUrl, width: 232, height: 282, type: "popup" },
       function (window) {}
     );
   });
 }
 
-chrome.commands.onCommand.addListener(function (command) {
+browser.commands.onCommand.addListener(function (command) {
   if (command === "screenshot") {
     onClickHandlerScreenshot();
   }
 });
 
-chrome.contextMenus.create({
+browser.contextMenus.create({
   title: "Slate",
   id: "parent",
   contexts: ["all"],
 });
 
-chrome.contextMenus.create({
+browser.contextMenus.create({
   title: "Add image",
   contexts: ["image"],
   parentId: "parent",
@@ -43,7 +43,7 @@ chrome.contextMenus.create({
   onclick: onClickHandlerImage,
 });
 
-chrome.contextMenus.create({
+browser.contextMenus.create({
   title: "Take screenshot",
   parentId: "parent",
   contexts: ["all"],

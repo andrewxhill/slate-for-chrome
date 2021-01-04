@@ -36,7 +36,6 @@
     "default_popup": "build/html/popup.html"
   },
   "manifest_version": 2,
-  "offline_enabled": true,
   "icons": {
     "16": "src/images/icon16.png",
     "48": "src/images/icon48.png",

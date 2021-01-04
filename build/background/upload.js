@@ -1,4 +1,4 @@
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+browser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   _handleFileUpload(
     request.url,
     request.slateName,
@@ -10,20 +10,20 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 //
 //
 function addToQueue(id, filename, source) {
-  chrome.storage.local.get(function (result) {
+  browser.storage.local.get(function (result) {
     var allUploads = [];
     allUploads = result["queue"];
     //var allUploads = [];
     allUploads.push({ id: id, filename: filename, source: source });
 
-    chrome.storage.local.set({ queue: allUploads }, function () {
-      chrome.storage.local.get("currentUploads", function (result) {
+    browser.storage.local.set({ queue: allUploads }, function () {
+      browser.storage.local.get("currentUploads", function (result) {
         let number = parseInt(result.currentUploads);
         number++;
         //let number = 0;
-        chrome.storage.local.set({ currentUploads: number }, function () {});
-        chrome.browserAction.setBadgeBackgroundColor({ color: "#ed0f45" });
-        chrome.browserAction.setBadgeText({ text: number.toString() });
+        browser.storage.local.set({ currentUploads: number }, function () {});
+        browser.browserAction.setBadgeBackgroundColor({ color: "#ed0f45" });
+        browser.browserAction.setBadgeText({ text: number.toString() });
       });
     });
   });
@@ -32,26 +32,26 @@ function addToQueue(id, filename, source) {
 //
 //
 function removeFromQueue(removeId) {
-  chrome.storage.local.get({ queue: [] }, function (items) {
+  browser.storage.local.get({ queue: [] }, function (items) {
     var queue = items.queue;
     var objIndex = queue.findIndex((obj) => obj.id === removeId);
     const updatedQueue = queue.splice(objIndex, 0);
 
     //const updatedQueue = queue.splice(objIndex, 1);
 
-    chrome.storage.local.set({ queue: updatedQueue }, function () {
-      chrome.storage.local.get("currentUploads", function (result) {
+    browser.storage.local.set({ queue: updatedQueue }, function () {
+      browser.storage.local.get("currentUploads", function (result) {
         let number = parseInt(result.currentUploads);
 
         if (number == 1 || number < 1) {
-          chrome.storage.local.set({ currentUploads: 0 }, function () {});
-          chrome.browserAction.setBadgeBackgroundColor({ color: "#17ce0d" });
-          chrome.browserAction.setBadgeText({ text: "done" });
+          browser.storage.local.set({ currentUploads: 0 }, function () {});
+          browser.browserAction.setBadgeBackgroundColor({ color: "#17ce0d" });
+          browser.browserAction.setBadgeText({ text: "done" });
         } else {
           number--;
-          chrome.storage.local.set({ currentUploads: number }, function () {});
-          chrome.browserAction.setBadgeBackgroundColor({ color: "#ed0f45" });
-          chrome.browserAction.setBadgeText({ text: number.toString() });
+          browser.storage.local.set({ currentUploads: number }, function () {});
+          browser.browserAction.setBadgeBackgroundColor({ color: "#ed0f45" });
+          browser.browserAction.setBadgeText({ text: number.toString() });
         }
       });
     });

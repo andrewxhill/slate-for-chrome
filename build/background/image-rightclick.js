@@ -1,29 +1,7 @@
-//Convert image to base64
-function convertImgToBase64URL(url, callback, outputFormat) {
-  var img = new Image();
-  img.crossOrigin = "Anonymous";
-  img.onload = function () {
-    var canvas = document.createElement("CANVAS"),
-      ctx = canvas.getContext("2d"),
-      data_url;
-    canvas.height = img.height;
-    canvas.width = img.width;
-    ctx.drawImage(img, 0, 0);
-    data_url = canvas.toDataURL(outputFormat);
-    callback(data_url);
-    canvas = null;
-    image_preview.src = data_url;
-  };
-  img.src = url;
-}
-//
-//
 //File Upload onclick listener
 document.addEventListener("DOMContentLoaded", function () {
   image = getUrlVars()["url"];
-  image_preview.src = image;
-
-  convertImgToBase64URL(image, function (base64Img) {});
+  image_preview.style.backgroundImage = "url('"+image+"')"; 
   _handleGetSlates();
 
   upload_button.addEventListener("click", _handleClick);
@@ -35,7 +13,7 @@ _handleClick = () => {
   const slate_name = slates_select.options[slates_select.selectedIndex].text;
   const slate_id = slates_select.options[slates_select.selectedIndex].value;
 
-  chrome.runtime.sendMessage(
+  browser.runtime.sendMessage(
     {
       msg: "image",
       url: image_preview.src,

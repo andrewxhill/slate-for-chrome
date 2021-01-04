@@ -1,7 +1,7 @@
 //get api key from local storage
 async function getAPIKey() {
   var storage = new Promise(function (resolve, reject) {
-    chrome.storage.local.get({ apiKey: true }, function (options) {
+    browser.storage.local.get({ apiKey: true }, function (options) {
       resolve(options.apiKey);
     });
   });

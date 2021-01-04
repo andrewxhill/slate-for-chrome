@@ -19,7 +19,7 @@ _handleClick = () => {
     today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
   var date_time = "screenshot-" + date + "-" + time;
 
-  chrome.runtime.sendMessage(
+  browser.runtime.sendMessage(
     {
       msg: "screenshot",
       url: image_preview.src,
